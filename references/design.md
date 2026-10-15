@@ -1,6 +1,6 @@
-# Design System: Minimal, Not "AI-Looking"
+# Design System: Refined Minimalist Light Mode
 
-Positive examples (components, Tailwind config, page patterns) are in `components.md`. Start there; use this file for the rules behind them.
+Positive examples (components, Tailwind config, page patterns) are in `components.md`. Responsive and mobile-first rules are detailed in `responsiveness.md`. Start there; use this file for the core light-mode aesthetic principles.
 
 ## 1. Tokens
 ```css
@@ -63,6 +63,8 @@ Never use these (most are caught by `check-banned-patterns.mjs`):
 Character comes from: a strong type scale, precise alignment, generous whitespace, real photography, one confident accent, thin 1px rules and good copy. Not from effects.
 
 ## 7. NO HORIZONTAL SCROLLING
+> **Note:** For the complete 10-rule guide, fluid typography (`clamp()`), touch ergonomics, and Playwright verification, see `references/responsiveness.md`.
+
 ### Rules
 1. Never set a px width larger than the viewport on a block element. Use `max-w-*` + `w-full`.
 2. **Never use `100vw`** for width (it includes the scrollbar). Use `100%` / `w-full`. No `w-screen`.

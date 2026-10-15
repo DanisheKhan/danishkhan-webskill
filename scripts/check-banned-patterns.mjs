@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Fails the build when code breaks the react-supabase-minimal hard rules.
+ * Fails the build when code breaks the danishkhan-webskill quality rules.
  *
  * Usage:  node scripts/check-banned-patterns.mjs [srcDir]      (default: src)
  * Opt out on one line with a trailing comment:  // banned-ok: <reason>
@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(process.argv[2] ?? 'src');
-const SKIP_DIRS = new Set(['node_modules', 'dist', 'build', '.git', 'coverage']);
+const SKIP_DIRS = new Set(['node_modules', 'dist', 'build', '.git', 'coverage', 'scripts']);
 const CODE = new Set(['.js', '.jsx', '.mjs', '.cjs']);
 const STYLE = new Set(['.css', '.html']);
 

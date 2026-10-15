@@ -1,9 +1,9 @@
 ---
-name: react-supabase-minimal
-description: Build complete, secure, SEO-ready websites in JavaScript (not TypeScript) with React + Supabase (Supabase is the entire backend, managed through the Supabase MCP), a feature-based file structure, strict minimalist design (no glow, gradients, glassmorphism or "AI-looking" UI, no horizontal scrolling) and subtle Framer Motion. Use when starting, structuring, designing, securing, optimizing, reviewing or refactoring any React + Supabase project, including contact forms, auth, payments, SEO and Supabase schema or RLS work.
+name: danishkhan-webskill
+description: Build complete, secure, SEO-ready websites in JavaScript (not TypeScript) with React + Supabase (Supabase is the entire backend, managed through the Supabase MCP), a feature-based file structure, refined minimalist design with light-mode emphasis, 320px+ mobile responsiveness, and subtle Framer Motion. Use when starting, structuring, designing, securing, optimizing, reviewing or refactoring any React + Supabase project, including contact forms, auth, payments, SEO, responsiveness, and Supabase schema or RLS work.
 ---
 
-# React + Supabase: Minimal, Feature-Based
+# Danish Khan WebSkill: Minimalist Light Mode, Feature-Based Web Architecture
 
 This file holds the hard rules and a "read X when doing Y" index. Detail lives in `references/`. **Load only the reference files the current task needs.**
 
@@ -13,11 +13,11 @@ This file holds the hard rules and a "read X when doing Y" index. Detail lives i
 Rules marked **[CI]** are enforced by `scripts/` and fail the build. Rules without a tag are enforced by review and `references/checklists.md`.
 
 1. **Feature-based structure.** Code lives with its feature. A feature is imported only through its `index.js`. `shared/` never imports from features. **[CI]**
-2. **No horizontal scroll at any width from 320px up.** No `100vw`, no full-bleed hacks, no carousels or marquees. **[CI]**
-3. **No glow, gradients, glassmorphism, neon, blobs, heavy shadows or scale-hover effects.** **[CI]**
+2. **No horizontal scroll at any width from 320px up.** No `100vw`, no full-bleed hacks, flex/grid children get `min-w-0`. See `references/responsiveness.md`. **[CI]**
+3. **Refined minimalist design with light-mode focus.** Crisp surfaces, 1px borders instead of heavy shadows, clean off-white background, deep legible text, no gaudy neon or blur blobs. See `references/design.md`. **[CI]**
 4. **Supabase is called only from a feature's `api/` layer**, never inside a component. **[CI]**
 5. **RLS is on for every table.** `service_role` never reaches the browser, the repo or chat. **[CI for the key]**
-6. **Tokens only.** No raw hex values or arbitrary pixel values in components.
+6. **Tokens only.** No raw hex values or arbitrary pixel values in components. Use defined CSS variables and design tokens.
 7. **Motion is subtle:** opacity and transform only, no bounce or loops, reduced-motion respected, never on the LCP element. **[CI for off-screen X]**
 8. **Security is a feature:** CSP and security headers, tested RLS, bot protection on public forms, no secrets in the client.
 9. **Every public page is SEO-ready** (unique title/description, canonical, OG, real HTML for crawlers, sitemap). Private pages are `noindex`.
@@ -57,12 +57,13 @@ Rules: features export only via `index.js`; features do not import each other's 
 | When you are... | Read |
 |---|---|
 | Creating a feature, folders, imports, React patterns, forms, TanStack Query | `references/structure.md` |
+| Designing for mobile, 320px–4K scaling, preventing horizontal scroll, touch targets | `references/responsiveness.md` |
+| Building any UI (light-mode tokens, typography, layout, minimalist principles) | `references/design.md` |
+| Writing `Button`, `Input`, `Container`, `Section`, Tailwind config, or clean pages | `references/components.md` |
 | Writing tables, RLS, migrations, the `api/` layer, auth, storage | `references/supabase.md` |
 | Using the Supabase MCP (setup, loop, safety) | `references/supabase-mcp.md` |
 | Auth edge cases, RLS performance, RPC, Realtime, optimistic updates, error messages, free-tier limits, email, payments | `references/supabase-realworld.md` |
-| Building any UI (tokens, typography, layout, no-overflow rules, banned list) | `references/design.md` |
-| Writing `Button`, `Input`, `Container`, `Section`, Tailwind config, or a page (hero, features, pricing, footer, contact) | `references/components.md` |
-| Adding animation | `references/motion.md` |
+| Adding animation (subtle, accessible) | `references/motion.md` |
 | Adding a public page, meta tags, sitemap, structured data, choosing rendering | `references/seo.md` |
 | Security headers, CSP, secrets, abuse limits | `references/security.md` |
 | Performance, accessibility, testing, CI, deployment | `references/quality-and-ops.md` |
@@ -72,7 +73,7 @@ Rules: features export only via `index.js`; features do not import each other's 
 ## 6. Enforcement (this is what makes the rules real)
 Copy `scripts/` into the project root and wire it up (see `scripts/README.md`):
 
-- `node scripts/check-banned-patterns.mjs` fails on gradients, blur and glass effects, heavy shadows, scale hovers, off-screen X animation, `100vw`/`w-screen`, `select('*')`, `supabase.from` outside `api/`, `service_role` in `src/`, TypeScript files, and cross-feature deep imports. A line may opt out with `// banned-ok: <reason>`; use sparingly and justify it in the PR.
+- `node scripts/check-banned-patterns.mjs` fails on gaudy neon/blobs, off-screen X animation, `100vw`/`w-screen`, `select('*')`, `supabase.from` outside `api/`, `service_role` in `src/`, TypeScript files, and cross-feature deep imports. A line may opt out with `// banned-ok: <reason>`; use sparingly and justify it in the PR.
 - `scripts/e2e/no-horizontal-scroll.spec.js` loads every route in `scripts/e2e/routes.json` at 320, 360, 390 and 768px and fails if `scrollWidth > clientWidth`. **Add every new route to `routes.json` in the same change that creates it.**
 - CI order: install, lint, `check`, test, build, Playwright overflow test (see `scripts/ci-example.yml`).
 
@@ -83,9 +84,10 @@ If a check fails, fix the code. Do not weaken the script or add `banned-ok` just
 2. Via MCP: `list_tables`, show the migration SQL, then `apply_migration`, run `get_advisors` and fix findings, then save the same SQL to `supabase/migrations/`. Test RLS as `anon` and `authenticated`.
 3. Write `api/` functions (specific columns, paginated, throw on error), then hooks with central query keys.
 4. Build UI from `shared/ui` using tokens only. Handle loading, error and empty states. Map errors through `shared/lib/errors.js`.
-5. Add the route with `<Seo />` (noindex for private pages), add it to `scripts/e2e/routes.json`.
-6. Run lint, `npm run check`, tests, build, and the overflow test. Keyboard-test the flow.
-7. Commit as `feat(<name>): ...`.
+5. Check mobile responsiveness down to 320px. Ensure tap targets >= 44px and inputs >= 16px.
+6. Add the route with `<Seo />` (noindex for private pages), add it to `scripts/e2e/routes.json`.
+7. Run lint, `npm run check`, tests, build, and the overflow test. Keyboard-test the flow.
+8. Commit as `feat(<name>): ...`.
 
 ## 8. Design in one paragraph
-Flat, quiet, precise. One typeface (weights 400 and 600), one accent, 1px borders instead of shadows, 8px radius, generous whitespace, real photography and good copy instead of effects. When unsure, remove something. Start from the reference implementations in `references/components.md` instead of inventing components, and read the banned list in `references/design.md` before writing any UI.
+Refined Minimalist Light Mode: Crisp, quiet, precise. Off-white background (`#FAFAF9`), clean surface panels (`#FFFFFF`), deep readable charcoal typography (`#111827`), one confident accent, 1px hairline borders instead of heavy shadows, 8px radius, generous whitespace, real photography and sharp copy. When unsure, remove something. Start from the reference implementations in `references/components.md`, check `references/design.md` for styling principles, and consult `references/responsiveness.md` to ensure zero horizontal scroll on all devices.

@@ -1,6 +1,6 @@
 # Reference Implementations
 
-Positive examples of what "good" looks like. **Copy these first; adapt them; do not reinvent.** All use tokens only, plain JavaScript with JSDoc, and satisfy the no-overflow and banned-pattern rules.
+Positive examples of what "good" looks like in clean, minimal light mode. **Copy these first; adapt them; do not reinvent.** All use tokens only, plain JavaScript with JSDoc, and satisfy the no-overflow and banned-pattern rules. For mobile-first responsiveness, touch targets, and mobile drawer navigation, see `responsiveness.md`.
 
 Contents: tokens-to-Tailwind config, `cn`, `Button`, `Container`, `Section`, `Input` / `Textarea`, page patterns (hero, feature list, pricing, footer, contact), reference `ContactForm`.
 
